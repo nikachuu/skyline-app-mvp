@@ -5,8 +5,11 @@ import { Platform, StyleSheet } from 'react-native';
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
 import Api from '../constants/Api';
+import { AuthDataSource } from '../core/config/data/auth.datasource';
+import { AuthParams } from '../models/AuthParams';
 
 export default function ModalScreen() {
+  doSignUp();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>TEXTO LOUCO</Text>
@@ -17,6 +20,16 @@ export default function ModalScreen() {
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>
   );
+}
+
+async function doSignUp() {
+  const auth = new AuthDataSource();
+  const user: AuthParams = {
+    email: 'linsantos93@gmail.com',
+    password: '123456',
+    returnSecureToken: false,
+  }
+  await auth.siginUp(user);
 }
 
 const styles = StyleSheet.create({
