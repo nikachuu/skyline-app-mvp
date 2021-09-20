@@ -22,12 +22,8 @@ export default function RegisterScreen({
             mode="outlined"
             label="E-mail"
           />
-          <TextInput secureTextEntry={true} mode="outlined" label="Senha" />
-          <TextInput
-            secureTextEntry={true}
-            mode="outlined"
-            label="Confirmar senha"
-          />
+          <TextInput secureTextEntry mode="outlined" label="Senha" />
+          <TextInput secureTextEntry mode="outlined" label="Confirmar senha" />
         </Card.Content>
         <Card.Actions style={styles.actionsContainer}>
           <Button mode="contained" color="#A7D86D" dark style={styles.button}>

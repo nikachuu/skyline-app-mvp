@@ -1,6 +1,15 @@
+import { Formik } from "formik";
 import * as React from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
-import { Card, TextInput, Button, Paragraph } from "react-native-paper";
+import {
+  Card,
+  TextInput,
+  HelperText,
+  Button,
+  Paragraph,
+} from "react-native-paper";
+
+import { loginValidationSchema } from "../utils/FormValidations";
 
 import { RootStackScreenProps } from "../types";
 
@@ -13,32 +22,84 @@ export default function LoginScreen({
         style={styles.logo}
         source={require("../assets/images/logo.png")}
       />
-      <Card style={styles.card}>
-        <Card.Title title="Entre na sua conta" />
-        <Card.Content>
-          <TextInput mode="outlined" label="E-mail" />
-          <TextInput mode="outlined" label="Senha" />
-          <TouchableOpacity
-            onPress={() => navigation.replace("Root")}
-            style={styles.link}
-          >
-            <Text style={styles.linkText}>Esqueci minha senha</Text>
-          </TouchableOpacity>
-        </Card.Content>
-        <Card.Actions style={styles.actionsContainer}>
-          <Button mode="contained" color="#A7D86D" dark style={styles.button}>
-            Entrar
-          </Button>
-          <Paragraph>
-            Não tem uma conta?{" "}
-            <TouchableOpacity onPress={() => navigation.replace("Register")}>
-              <Text style={[styles.linkText, styles.registerLinkText]}>
-                Registre-se
-              </Text>
-            </TouchableOpacity>
-          </Paragraph>
-        </Card.Actions>
-      </Card>
+      <Formik
+        validationSchema={loginValidationSchema}
+        initialValues={{ email: "", password: "" }}
+        onSubmit={(values) => console.log(values)}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          dirty,
+          isValid,
+        }) => (
+          <Card style={styles.card}>
+            <Card.Title title="Entre na sua conta" />
+            <Card.Content>
+              <View style={styles.textInputContainer}>
+                <TextInput
+                  mode="outlined"
+                  autoCompleteType="email"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  label="E-mail"
+                  value={values.email}
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  error={errors.email !== undefined && touched.email}
+                />
+                {errors.email && touched.email && (
+                  <HelperText type="error"> {errors.email} </HelperText>
+                )}
+              </View>
+              <View style={styles.textInputContainer}>
+                <TextInput
+                  mode="outlined"
+                  secureTextEntry
+                  label="Senha"
+                  value={values.password}
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  error={errors.password !== undefined && touched.password}
+                />
+                {errors.password && touched.password && (
+                  <HelperText type="error"> {errors.password} </HelperText>
+                )}
+              </View>
+
+              <TouchableOpacity onPress={() => navigation.replace("Root")}>
+                <Text style={styles.linkText}>Esqueci minha senha</Text>
+              </TouchableOpacity>
+            </Card.Content>
+            <Card.Actions style={styles.actionsContainer}>
+              <Button
+                mode="contained"
+                color="#A7D86D"
+                dark
+                style={styles.button}
+                onPress={handleSubmit}
+                disabled={!dirty || !isValid}
+              >
+                Entrar
+              </Button>
+              <Paragraph>
+                Não tem uma conta?{" "}
+                <TouchableOpacity
+                  onPress={() => navigation.replace("Register")}
+                >
+                  <Text style={[styles.linkText, styles.registerLinkText]}>
+                    Registre-se
+                  </Text>
+                </TouchableOpacity>
+              </Paragraph>
+            </Card.Actions>
+          </Card>
+        )}
+      </Formik>
     </View>
   );
 }
@@ -50,6 +111,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+  },
+  textInputContainer: {
+    height: 85,
   },
   logo: {
     width: 204,
@@ -63,8 +127,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
   },
-  link: {
-    paddingTop: 10,
+  helperText: {
+    marginBottom: 50,
   },
   linkText: {
     fontSize: 14,
