@@ -7,7 +7,7 @@ import { mapFireBaseAuthToAuthUser } from '../../../models/AuthUserModel.dto';
 
 export class AuthDataSource {
   
-  public signIn(user: AuthParams): Promise<AuthUserModel> {
+  public static signIn(user: AuthParams): Promise<AuthUserModel> {
     return new Promise<AuthUserModel>((resolve, reject) => {
       axios.post<AuthReponseModel>(Api.Resource.signin, user)
         .then((user) => resolve(mapFireBaseAuthToAuthUser(user.data)))
@@ -15,7 +15,7 @@ export class AuthDataSource {
     });
   }
 
-  public async siginUp(user: AuthParams): Promise<void> {
+  public static async siginUp(user: AuthParams): Promise<void> {
     try {
       await axios.post(Api.Resource.signUp, user);
     } catch (error) {
