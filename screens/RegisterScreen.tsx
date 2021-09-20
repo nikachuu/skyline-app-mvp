@@ -1,4 +1,4 @@
-import { Formik, FormikErrors, FormikTouched } from "formik";
+import { Formik } from "formik";
 import * as React from "react";
 import { StyleSheet, View, Image, TouchableOpacity, Text } from "react-native";
 import {
@@ -11,11 +11,6 @@ import {
 
 import { RootStackScreenProps } from "../types";
 import { registerValidationSchema } from "../utils/FormValidations";
-
-interface RegisterScreenProps {
-  field: { name: any; onBlur: any; onChange: any; value: any };
-  form: { errors: any; touched: any; setFieldTouched: any };
-}
 
 export default function RegisterScreen({
   navigation,
