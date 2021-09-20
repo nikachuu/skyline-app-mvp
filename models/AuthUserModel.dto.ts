@@ -6,5 +6,6 @@ export const mapFireBaseAuthToAuthUser = (user: AuthReponseModel):AuthUserModel 
     authToken: user.idToken,
     refreshToken: user.refreshToken,
     expiresIn: parseInt(user.expiresIn),
+    userId: user.localId,
   }
 }
