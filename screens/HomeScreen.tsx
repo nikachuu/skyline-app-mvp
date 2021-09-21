@@ -10,7 +10,12 @@ export default function HomeScreen({
     <>
       <View style={styles.container}>
         <View style={styles.buttonsContainer}>
-          <Button mode="contained" color="#A7D86D" dark>
+          <Button
+            mode="contained"
+            color="#A7D86D"
+            dark
+            onPress={() => navigation.navigate("EventsList")}
+          >
             Meus Eventos
           </Button>
           <Button mode="contained" color="#A7D86D" dark>
