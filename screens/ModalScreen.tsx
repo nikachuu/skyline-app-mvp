@@ -4,8 +4,13 @@ import { Platform, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '../components/EditScreenInfo';
 import { Text, View } from '../components/Themed';
+import { AuthDataSource } from '../core/config/data/auth.datasource';
+import { AuthParams } from '../models/AuthParams';
+import { LocalStorageService } from '../core/config/service/loca.storage.service.impl';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ModalScreen() {
+  signIn();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>TEXTO LOUCO</Text>
@@ -16,6 +21,19 @@ export default function ModalScreen() {
       <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>
   );
+}
+
+async function signIn() {
+  const auth = new AuthDataSource();
+  const storage = new LocalStorageService(AsyncStorage);
+  const user: AuthParams = {
+    email: 'linsantos93@gmail.com',
+    password: '123456',
+    returnSecureToken: true,
+  }
+  await auth.signIn(user);
+  const token = (await storage.get('authData')).expiresIn;
+  console.log(token);
 }
 
 const styles = StyleSheet.create({
