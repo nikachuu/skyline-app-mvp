@@ -30,8 +30,11 @@ export class AuthDataSource {
     try {
       await axios.post(Api.Resource.signUp, user);
     } catch (error) {
-      console.log(error);
       throw new Error(`Ocorreu um erro ${error}`);
     }
+  }
+
+  public async isLoggedUser() {
+    return (await this.localStorageService.get('authData'))?.authToken != null;
   }
 }

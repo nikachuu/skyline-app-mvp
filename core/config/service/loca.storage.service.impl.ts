@@ -1,4 +1,5 @@
 import { ILocalStorageService } from './local.storage.service';
+import { AuthUserModel } from '../../../models/AuthUserModel';
 
 export class LocalStorageService implements ILocalStorageService {
   service: any;
@@ -20,9 +21,10 @@ export class LocalStorageService implements ILocalStorageService {
     }
   };
 
-  get = async (key: string) => {
+  get = async (key: string): Promise<AuthUserModel> => {
     try {
-      return await this.service.getItem(key);
+      const data = await this.service.getItem(key);
+      return JSON.parse(data);
     } catch (error) {
       throw new Error(`Erro ao pegar -> ${error}`);
     }
