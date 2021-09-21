@@ -17,6 +17,7 @@ import { CustomNavigationBar } from "../components/CustomNavigationBar";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import EventsListScreen from "../screens/EventsListScreen";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import ModalScreen from "../screens/ModalScreen";
@@ -62,6 +63,11 @@ function RootNavigator() {
       <Stack.Screen
         name="Home"
         component={HomeScreen}
+        options={{ title: "Skyline" }}
+      />
+      <Stack.Screen
+        name="EventsList"
+        component={EventsListScreen}
         options={{ title: "Skyline" }}
       />
       <Stack.Screen
