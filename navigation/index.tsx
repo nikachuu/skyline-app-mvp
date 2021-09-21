@@ -17,6 +17,7 @@ import { CustomNavigationBar } from "../components/CustomNavigationBar";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
@@ -58,6 +59,11 @@ function RootNavigator() {
         header: (props) => <CustomNavigationBar {...props} />,
       }}
     >
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: "Skyline" }}
+      />
       <Stack.Screen
         name="Login"
         component={LoginScreen}
