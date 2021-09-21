@@ -8,10 +8,6 @@ export default function HomeScreen({
 }: RootStackScreenProps<"Home">) {
   return (
     <>
-      <Appbar.Header dark>
-        <Appbar.BackAction />
-        <Appbar.Content title="Skyline" />
-      </Appbar.Header>
       <View style={styles.container}>
         <View style={styles.buttonsContainer}>
           <Button mode="contained" color="#A7D86D" dark>

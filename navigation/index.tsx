@@ -60,6 +60,11 @@ function RootNavigator() {
       }}
     >
       <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ title: "Skyline" }}
+      />
+      <Stack.Screen
         name="Login"
         component={LoginScreen}
         options={{ headerShown: false }}

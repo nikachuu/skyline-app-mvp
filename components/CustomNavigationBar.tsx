@@ -8,7 +8,7 @@ export function CustomNavigationBar({ navigation }: NativeStackHeaderProps) {
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
   return (
-    <Appbar.Header>
+    <Appbar.Header dark>
       {navigation.canGoBack() ? (
         <Appbar.BackAction onPress={() => navigation.goBack()} />
       ) : null}
