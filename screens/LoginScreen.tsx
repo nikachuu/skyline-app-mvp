@@ -89,7 +89,7 @@ export default function LoginScreen({
               <Paragraph>
                 Não tem uma conta?{" "}
                 <TouchableOpacity
-                  onPress={() => navigation.replace("Register")}
+                  onPress={() => navigation.navigate("Register")}
                 >
                   <Text style={[styles.linkText, styles.registerLinkText]}>
                     Registre-se

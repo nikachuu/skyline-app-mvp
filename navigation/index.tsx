@@ -13,6 +13,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, Pressable } from "react-native";
+import { CustomNavigationBar } from "../components/CustomNavigationBar";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -52,12 +53,11 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Root"
-        component={LoginScreen}
-        options={{ headerShown: false }}
-      />
+    <Stack.Navigator
+      screenOptions={{
+        header: (props) => <CustomNavigationBar {...props} />,
+      }}
+    >
       <Stack.Screen
         name="Login"
         component={LoginScreen}

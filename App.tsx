@@ -10,7 +10,7 @@ import Navigation from "./navigation";
 const theme = {
   ...DefaultTheme,
   roundness: 2,
-  colors: { ...DefaultTheme.colors, primary: "#507A1E", accent: "#A7D86D" },
+  colors: { ...DefaultTheme.colors, primary: "#A7D86D", accent: "#A7D86D" },
 };
 
 export default function App() {
