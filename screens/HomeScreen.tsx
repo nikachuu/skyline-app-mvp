@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: "#fff",
     alignItems: "center",
-    // justifyContent: "center",
   },
   buttonsContainer: {
     flex: 1,
@@ -54,10 +53,6 @@ const styles = StyleSheet.create({
   },
   mapContainer: {
     flex: 4,
-    width: "100%",
-  },
-  eventsContainer: {
-    flex: 2,
     width: "100%",
   },
 });
