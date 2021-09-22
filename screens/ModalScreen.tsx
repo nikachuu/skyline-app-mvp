@@ -8,8 +8,10 @@ import { AuthDataSource } from '../core/config/data/auth.datasource';
 import { AuthParams } from '../models/AuthParams';
 import { LocalStorageService } from '../core/config/service/loca.storage.service.impl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthException } from '../core/config/data/auth.exceptions';
 
 export default function ModalScreen() {
+  const test = new AuthException();
   signIn();
   return (
     <View style={styles.container}>
@@ -31,9 +33,8 @@ async function signIn() {
     password: '123456',
     returnSecureToken: true,
   }
-  await auth.signIn(user);
+  await auth.siginUp(user);
   const token = (await storage.get('authData')).expiresIn;
-  console.log(token);
 }
 
 const styles = StyleSheet.create({

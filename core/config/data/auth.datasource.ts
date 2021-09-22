@@ -7,6 +7,8 @@ import { mapFireBaseAuthToAuthUser, mapRefeshTokenToAuthUser } from '../../../mo
 import { LocalStorageService } from '../service/loca.storage.service.impl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { RefreshTokenReponseModel } from '../../../models/RefreshTokenReponseModel';
+import { AuthResponseErrorModel } from '../../../models/AuthResponseErrorModel';
+import { AuthException } from './auth.exceptions';
 
 export class AuthDataSource {
 
@@ -16,22 +18,29 @@ export class AuthDataSource {
     this.localStorageService = new LocalStorageService(AsyncStorage);
   }
 
-  public signIn(user: AuthParams): Promise<AuthUserModel> {
+  public async signIn(user: AuthParams): Promise<AuthUserModel> {
     return new Promise<AuthUserModel>((resolve, reject) => {
       axios.post<AuthReponseModel>(Api.Resource.signin, user)
-        .then((user) => {
-          const loggedUser = JSON.stringify(mapFireBaseAuthToAuthUser(user.data));
+        .then((data) => {
+          const loggedUser = JSON.stringify(mapFireBaseAuthToAuthUser(data.data));
           this.localStorageService.set('authData', loggedUser);
-          resolve(mapFireBaseAuthToAuthUser(user.data))
-        }).catch((error) => reject(error));
+          resolve(mapFireBaseAuthToAuthUser(data.data));
+        })
+        .catch((error) => {
+          this.catchError(error, reject);
+        })
     });
   }
 
   public async siginUp(user: AuthParams): Promise<void> {
     try {
       await axios.post(Api.Resource.signUp, user);
-    } catch (error) {
-      throw new Error(`Ocorreu um erro ${error}`);
+    } catch (error: any) {
+      const authException = new AuthException();
+      const errorData: AuthResponseErrorModel = error.response.data.error;
+      authException.mapAuthExceptionToString(errorData.errors).forEach((e) => {
+        throw new Error(e);
+      });
     }
   }
 
@@ -48,7 +57,17 @@ export class AuthDataSource {
         this.localStorageService.set('authData', newUserData);
         resolve(mapRefeshTokenToAuthUser(userData.data));
       })
-      .catch((error) => reject(error));
+      .catch((error) => {
+        this.catchError(error, reject);
+      });
+    });
+  }
+
+  private catchError(error: any, reject: (reason?: any) => void) {
+    const authException = new AuthException();
+    const errorData: AuthResponseErrorModel = error.response.data.error;
+    authException.mapAuthExceptionToString(errorData.errors).forEach((e) => {
+      reject(e);
     });
   }
 

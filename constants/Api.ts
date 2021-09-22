@@ -1,6 +1,6 @@
 import { AUTH_BASE_URL, BASE_URL, API_KEY, SECURE_BASE_URL } from '../core/config/config.app';
 
-const events = `${BASE_URL}?auth=[AUTH_TOKEN]/events`;
+const events = `${BASE_URL}/events/?auth=[AUTH_TOKEN]`;
 
 const signUp = () => AUTH_BASE_URL
   .replace('[AUTH_MODE]', 'signUp')
