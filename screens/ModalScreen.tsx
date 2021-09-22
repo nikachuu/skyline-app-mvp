@@ -1,55 +1,178 @@
-import { StatusBar } from 'expo-status-bar';
-import * as React from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { Formik } from "formik";
+import * as React from "react";
+import { View, StyleSheet } from "react-native";
+import {
+  Button,
+  Provider,
+  Modal,
+  Title,
+  TextInput,
+  HelperText,
+} from "react-native-paper";
 
-import EditScreenInfo from '../components/EditScreenInfo';
-import { Text, View } from '../components/Themed';
-import { AuthDataSource } from '../core/config/data/auth.datasource';
-import { AuthParams } from '../models/AuthParams';
-import { LocalStorageService } from '../core/config/service/loca.storage.service.impl';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthException } from '../core/config/data/auth.exceptions';
+import { theme } from "../utils/Theme";
 
-export default function ModalScreen() {
-  const test = new AuthException();
-  signIn();
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>TEXTO LOUCO</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="/screens/ModalScreen.tsx" />
-
-      {/* Use a light status bar on iOS to account for the black space above the modal */}
-      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-    </View>
-  );
+interface ModalScreenProps {
+  visible: boolean;
+  onDismiss: () => void;
 }
 
-async function signIn() {
-  const auth = new AuthDataSource();
-  const storage = new LocalStorageService(AsyncStorage);
-  const user: AuthParams = {
-    email: 'linsantos93@gmail.com',
-    password: '123456',
-    returnSecureToken: true,
-  }
-  await auth.siginUp(user);
-  const token = (await storage.get('authData')).expiresIn;
+export default function ModalScreen({ visible, onDismiss }: ModalScreenProps) {
+  const containerStyle = { backgroundColor: "white", padding: 20, margin: 20 };
+
+  return (
+    <Provider theme={theme}>
+      <Modal
+        visible={visible}
+        onDismiss={onDismiss}
+        contentContainerStyle={containerStyle}
+      >
+        <Title>Novo evento</Title>
+        <Formik
+          initialValues={{
+            title: "",
+            address: "",
+            startingDate: "",
+            finishingDate: "",
+            startingTime: "",
+            finishingTime: "",
+          }}
+          onSubmit={(values) => console.log(values)}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            dirty,
+            isValid,
+          }) => (
+            <>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  mode="outlined"
+                  label="Título"
+                  value={values.title}
+                  onChangeText={handleChange("title")}
+                  onBlur={handleBlur("title")}
+                  error={errors.title !== undefined && touched.title}
+                />
+                {errors.title && touched.title && (
+                  <HelperText type="error"> {errors.title} </HelperText>
+                )}
+              </View>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  mode="outlined"
+                  label="Local"
+                  value={values.address}
+                  onChangeText={handleChange("email")}
+                  onBlur={handleBlur("email")}
+                  error={errors.address !== undefined && touched.address}
+                />
+                {errors.address && touched.address && (
+                  <HelperText type="error"> {errors.address} </HelperText>
+                )}
+              </View>
+              <View style={styles.twoInputsContainer}>
+                <TextInput
+                  style={styles.smallerInput}
+                  mode="outlined"
+                  label="Dt início"
+                  value={values.startingDate}
+                  onChangeText={handleChange("password")}
+                  onBlur={handleBlur("password")}
+                  error={
+                    errors.startingDate !== undefined && touched.startingDate
+                  }
+                />
+                {errors.startingDate && touched.startingDate && (
+                  <HelperText type="error"> {errors.startingDate} </HelperText>
+                )}
+
+                <TextInput
+                  style={styles.smallerInput}
+                  mode="outlined"
+                  label="Dt término"
+                  value={values.finishingDate}
+                  onChangeText={handleChange("finishingDate")}
+                  onBlur={handleBlur("finishingDate")}
+                  error={
+                    errors.finishingDate !== undefined && touched.finishingDate
+                  }
+                />
+                {errors.finishingDate && touched.finishingDate && (
+                  <HelperText type="error">{errors.finishingDate}</HelperText>
+                )}
+              </View>
+              <View style={styles.twoInputsContainer}>
+                <TextInput
+                  style={styles.smallerInput}
+                  mode="outlined"
+                  label="Hora início"
+                  value={values.startingTime}
+                  onChangeText={handleChange("startingTime")}
+                  onBlur={handleBlur("startingTime")}
+                  error={
+                    errors.startingTime !== undefined && touched.startingTime
+                  }
+                />
+                {errors.startingTime && touched.startingTime && (
+                  <HelperText type="error"> {errors.startingTime} </HelperText>
+                )}
+
+                <TextInput
+                  style={styles.smallerInput}
+                  mode="outlined"
+                  label="Hora término"
+                  value={values.finishingTime}
+                  onChangeText={handleChange("finishingTime")}
+                  onBlur={handleBlur("finishingTime")}
+                  error={
+                    errors.finishingTime !== undefined && touched.finishingTime
+                  }
+                />
+                {errors.finishingTime && touched.finishingTime && (
+                  <HelperText type="error">{errors.finishingTime}</HelperText>
+                )}
+              </View>
+              <Button
+                style={styles.button}
+                mode="contained"
+                color="#A7D86D"
+                dark
+                onPress={() => console.log(values)}
+                disabled={!dirty || !isValid}
+              >
+                Cadastrar
+              </Button>
+            </>
+          )}
+        </Formik>
+      </Modal>
+    </Provider>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  inputContainer: { marginVertical: 10 },
+  twoInputsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 10,
   },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  }
+  smallerInput: {
+    width: "49%",
+  },
+  button: {
+    marginTop: 50,
+  },
 });
