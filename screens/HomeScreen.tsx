@@ -1,11 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Appbar, Button, Card } from "react-native-paper";
+import { Appbar, Button, Card, Portal } from "react-native-paper";
 import { RootStackScreenProps } from "../types";
+import ModalScreen from "./ModalScreen";
 
 export default function HomeScreen({
   navigation,
 }: RootStackScreenProps<"Home">) {
+  const [visible, setVisible] = useState(false);
+  const showModal = () => setVisible(true);
+  const hideModal = () => setVisible(false);
+
   return (
     <>
       <View style={styles.container}>
@@ -18,7 +23,12 @@ export default function HomeScreen({
           >
             Meus Eventos
           </Button>
-          <Button mode="contained" color="#A7D86D" dark>
+          <Button
+            mode="contained"
+            color="#A7D86D"
+            dark
+            onPress={() => showModal()}
+          >
             Novo Evento
           </Button>
         </View>
@@ -32,6 +42,10 @@ export default function HomeScreen({
           </Card>
         </View>
       </View>
+
+      <Portal>
+        <ModalScreen visible={visible} onDismiss={hideModal} />
+      </Portal>
     </>
   );
 }
