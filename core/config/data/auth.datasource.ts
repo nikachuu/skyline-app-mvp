@@ -26,7 +26,7 @@ export class AuthDataSource {
           this.localStorageService.set('authData', loggedUser);
           resolve(mapFireBaseAuthToAuthUser(data.data));
         })
-        .catch((error) => {
+        .catch((error: any) => {
           this.catchError(error, reject);
         })
     });
@@ -65,7 +65,8 @@ export class AuthDataSource {
 
   private catchError(error: any, reject: (reason?: any) => void) {
     const authException = new AuthException();
-    const errorData: AuthResponseErrorModel = error.response.data.error;
+    console.log(error.request);
+    const errorData: AuthResponseErrorModel = error?.response?.data?.error;
     authException.mapAuthExceptionToString(errorData.errors).forEach((e) => {
       reject(e);
     });
