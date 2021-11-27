@@ -13,9 +13,12 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { ColorSchemeName, Pressable } from "react-native";
+import { CustomNavigationBar } from "../components/CustomNavigationBar";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
+import EventsListScreen from "../screens/EventsListScreen";
+import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
@@ -52,11 +55,20 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        header: (props) => <CustomNavigationBar {...props} />,
+      }}
+    >
       <Stack.Screen
-        name="Root"
-        component={LoginScreen}
-        options={{ headerShown: false }}
+        name="Home"
+        component={HomeScreen}
+        options={{ title: "Skyline" }}
+      />
+      <Stack.Screen
+        name="EventsList"
+        component={EventsListScreen}
+        options={{ title: "Skyline" }}
       />
       <Stack.Screen
         name="Login"

@@ -119,7 +119,7 @@ export default function RegisterScreen({
               </Button>
               <Paragraph>
                 Já possui uma conta?{" "}
-                <TouchableOpacity onPress={() => navigation.replace("Login")}>
+                <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                   <Text style={[styles.linkText, styles.registerLinkText]}>
                     Faça o login
                   </Text>
